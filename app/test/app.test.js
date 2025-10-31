@@ -84,3 +84,26 @@ test("GET /api/usuarios/:id responde con el ID buscado", async () => {
     
     assert.equal(parsed.buscando_usuario_con_id, "99", "Debe reflejar el ID solicitado");
 });
+
+test("GET /api/resumen devuelve datos combinados de usuarios y productos", async () => {
+    const server = app.listen(0);
+    const { port } = server.address();
+    
+    // Hacemos la solicitud al nuevo endpoint /api/resumen
+    const body = await makeRequest(port, "/api/resumen");
+
+    await new Promise((r) => server.close(r));
+
+    const parsed = JSON.parse(body);
+    
+    // 1. Verificamos que la estructura general exista
+    assert.equal(typeof parsed.resumen_general, 'string', "Debe tener una clave resumen_general");
+    
+    // 2. Verificamos que los conteos sean correctos
+    assert.equal(parsed.usuarios_activos, 3, "El conteo de usuarios debe ser 3");
+    assert.equal(parsed.total_productos, 2, "El conteo de productos debe ser 2");
+
+    // 3. Verificamos que las listas estén presentes
+    assert.ok(Array.isArray(parsed.listas_completas.usuarios), "Debe incluir la lista de usuarios");
+    assert.ok(Array.isArray(parsed.listas_completas.productos), "Debe incluir la lista de productos");
+});
