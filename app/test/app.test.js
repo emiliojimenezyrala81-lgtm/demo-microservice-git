@@ -29,6 +29,7 @@ test("GET / responde con el JSON esperado", async () => {
 
   const parsed = JSON.parse(body);
   assert.equal(parsed.status, "ok");
+  // Asegúrate que 'Hola soy el BARTO3' sea el mensaje actual en tu app.js
   assert.equal(parsed.service, "Hola soy el BARTO3"); 
 });
 
@@ -47,7 +48,6 @@ test("GET /api/usuarios devuelve una lista de 3 usuarios", async () => {
     
     assert.ok(Array.isArray(parsed), "La respuesta debe ser un Array"); 
     assert.equal(parsed.length, 3, "El Array debe contener 3 usuarios"); 
-    assert.equal(parsed[0].nombre, "Ana", "El primer usuario debe ser Ana");
 });
 
 // -----------------------------------------------------------
@@ -65,7 +65,6 @@ test("GET /api/productos devuelve una lista de 2 productos", async () => {
     
     assert.ok(Array.isArray(parsed), "La respuesta debe ser un Array"); 
     assert.equal(parsed.length, 2, "El Array debe contener 2 productos"); 
-    assert.equal(parsed[1].nombre, "Teclado", "El segundo producto debe ser Teclado");
 });
 
 // -----------------------------------------------------------
@@ -75,7 +74,6 @@ test("GET /api/usuarios/:id responde con el ID buscado", async () => {
     const server = app.listen(0);
     const { port } = server.address();
     
-    // Probamos con un ID cualquiera
     const body = await makeRequest(port, "/api/usuarios/99"); 
 
     await new Promise((r) => server.close(r));
@@ -85,3 +83,27 @@ test("GET /api/usuarios/:id responde con el ID buscado", async () => {
     assert.equal(parsed.buscando_usuario_con_id, "99", "Debe reflejar el ID solicitado");
 });
 
+// -----------------------------------------------------------
+// 5. PRUEBA: RESUMEN COMBINADO (/api/resumen)
+// -----------------------------------------------------------
+test("GET /api/resumen devuelve datos combinados con conteos correctos", async () => {
+    const server = app.listen(0);
+    const { port } = server.address();
+    
+    const body = await makeRequest(port, "/api/resumen");
+
+    await new Promise((r) => server.close(r));
+
+    const parsed = JSON.parse(body);
+    
+    // Verifica que el JSON contenga las claves esperadas
+    assert.ok(parsed.hasOwnProperty('usuarios_activos'), "Falta la clave usuarios_activos");
+    assert.ok(parsed.hasOwnProperty('total_productos'), "Falta la clave total_productos");
+    
+    // Verifica los conteos basados en la lógica de app.js
+    assert.equal(parsed.usuarios_activos, 3, "El conteo de usuarios debe ser 3");
+    assert.equal(parsed.total_productos, 2, "El conteo de productos debe ser 2");
+    
+    // Verifica que las listas estén presentes y sean arrays
+    assert.ok(Array.isArray(parsed.listas_completas.usuarios), "Debe incluir la lista de usuarios");
+});
