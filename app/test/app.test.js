@@ -21,5 +21,5 @@ test("GET / responde con el JSON esperado", async () => {
 
   const parsed = JSON.parse(body);
   assert.equal(parsed.status, "ok");
-  assert.equal(parsed.service, "Hola soy el BARTO2");
+  assert.equal(parsed.service, "Hola soy el BARTO3");
 });
