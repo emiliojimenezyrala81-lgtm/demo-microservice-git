@@ -38,5 +38,27 @@ app.get("/api/usuarios/:id", (req, res) => {
         nombre: "Usuario de Ejemplo"
     });
 });
+app.get("/api/resumen", (_req, res) => {
+    // 1. Define o importa los datos que ya tienes
+    const usuarios = [
+        { id: 1, nombre: "Ana" },
+        { id: 2, nombre: "Emilio" },
+        { id: 3, nombre: "Carlos" }
+    ];
+    const productos = [
+        { id: 100, nombre: "Laptop", stock: 15 },
+        { id: 101, nombre: "Teclado", stock: 30 }
+    ];
 
+    // 2. Combina ambos en un único JSON
+    res.json({
+        resumen_general: "Datos combinados y listos",
+        usuarios_activos: usuarios.length,
+        total_productos: productos.length,
+        listas_completas: {
+            usuarios: usuarios,
+            productos: productos
+        }
+    });
+});
 export default app;
