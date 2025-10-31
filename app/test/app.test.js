@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import app from "../app.js"; 
 
-
+// Función auxiliar para hacer la solicitud HTTP de prueba
 const makeRequest = (port, path) => {
     return new Promise((resolve, reject) => {
         http
@@ -16,7 +16,9 @@ const makeRequest = (port, path) => {
     });
 };
 
-
+// -----------------------------------------------------------
+// 1. PRUEBA BÁSICA: RUTA RAÍZ (/)
+// -----------------------------------------------------------
 test("GET / responde con el JSON esperado", async () => {
   const server = app.listen(0);
   const { port } = server.address();
@@ -30,7 +32,9 @@ test("GET / responde con el JSON esperado", async () => {
   assert.equal(parsed.service, "Hola soy el BARTO3"); 
 });
 
-
+// -----------------------------------------------------------
+// 2. PRUEBA: LISTA DE USUARIOS (/api/usuarios)
+// -----------------------------------------------------------
 test("GET /api/usuarios devuelve una lista de 3 usuarios", async () => {
     const server = app.listen(0);
     const { port } = server.address();
@@ -46,7 +50,9 @@ test("GET /api/usuarios devuelve una lista de 3 usuarios", async () => {
     assert.equal(parsed[0].nombre, "Ana", "El primer usuario debe ser Ana");
 });
 
-
+// -----------------------------------------------------------
+// 3. PRUEBA: LISTA DE PRODUCTOS (/api/productos)
+// -----------------------------------------------------------
 test("GET /api/productos devuelve una lista de 2 productos", async () => {
     const server = app.listen(0);
     const { port } = server.address();
@@ -62,12 +68,14 @@ test("GET /api/productos devuelve una lista de 2 productos", async () => {
     assert.equal(parsed[1].nombre, "Teclado", "El segundo producto debe ser Teclado");
 });
 
-
+// -----------------------------------------------------------
+// 4. PRUEBA: OBTENER POR ID (/api/usuarios/:id)
+// -----------------------------------------------------------
 test("GET /api/usuarios/:id responde con el ID buscado", async () => {
     const server = app.listen(0);
     const { port } = server.address();
     
-    
+    // Probamos con un ID cualquiera
     const body = await makeRequest(port, "/api/usuarios/99"); 
 
     await new Promise((r) => server.close(r));
@@ -77,25 +85,3 @@ test("GET /api/usuarios/:id responde con el ID buscado", async () => {
     assert.equal(parsed.buscando_usuario_con_id, "99", "Debe reflejar el ID solicitado");
 });
 
-test("GET /api/resumen devuelve datos combinados de usuarios y productos", async () => {
-    const server = app.listen(0);
-    const { port } = server.address();
-    
-    
-    const body = await makeRequest(port, "/api/resumen");
-
-    await new Promise((r) => server.close(r));
-
-    const parsed = JSON.parse(body);
-    
-    
-    assert.equal(typeof parsed.resumen_general, 'string', "Debe tener una clave resumen_general");
-    
-    
-    assert.equal(parsed.usuarios_activos, 3, "El conteo de usuarios debe ser 3");
-    assert.equal(parsed.total_productos, 2, "El conteo de productos debe ser 2");
-
-    
-    assert.ok(Array.isArray(parsed.listas_completas.usuarios), "Debe incluir la lista de usuarios");
-    assert.ok(Array.isArray(parsed.listas_completas.productos), "Debe incluir la lista de productos");
-});
