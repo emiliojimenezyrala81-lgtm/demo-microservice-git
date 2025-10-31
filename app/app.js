@@ -2,8 +2,8 @@ import express from "express";
 
 const app = express();
 
-// --- 1. DEFINICIÓN DE DATOS CENTRALIZADA ---
-// Si modificas un nombre aquí, se actualiza en todas las rutas y pruebas.
+
+
 const ALL_USERS = [
     { id: 1, nombre: "Ana" },
     { id: 2, nombre: "Emili" },
@@ -14,27 +14,27 @@ const ALL_PRODUCTS = [
     { id: 100, nombre: "Laptop", stock: 15 },
     { id: 101, nombre: "Teclado", stock: 30 }
 ];
-// ----------------------------------------
 
 
-// --- 2. RUTAS DE LA API (Endpoints) ---
 
-// RUTA BÁSICA (Root)
+
+
+
 app.get("/", (_req, res) => {
     res.json({ status: "ok", service: "Hola soy el BARTO3" });
 });
 
-// LISTA DE USUARIOS
+
 app.get("/api/usuarios", (_req, res) => {
     res.json(ALL_USERS); 
 });
 
-// LISTA DE PRODUCTOS
+
 app.get("/api/productos", (_req, res) => {
     res.json(ALL_PRODUCTS);
 });
 
-// OBTENER USUARIO POR ID (con parámetro dinámico)
+
 app.get("/api/usuarios/:id", (req, res) => {
     const idBuscado = req.params.id; 
     
@@ -44,7 +44,7 @@ app.get("/api/usuarios/:id", (req, res) => {
     });
 });
 
-// ENDPOINT DE RESUMEN (Combina todos los datos)
+
 app.get("/api/resumen", (_req, res) => {
     res.json({
         resumen_general: "Datos combinados y listos",
@@ -58,4 +58,4 @@ app.get("/api/resumen", (_req, res) => {
 });
 
 
-export default app; // Siempre al final
+export default app; 
