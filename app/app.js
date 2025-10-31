@@ -5,7 +5,7 @@ const app = express();
 
 const ALL_USERS = [
     { id: 1, nombre: "Jhon" },
-    { id: 2, nombre: "Yacke" },
+    { id: 2, nombre: "Yackelin" },
     { id: 3, nombre: "Carlos" }
 ];
 
