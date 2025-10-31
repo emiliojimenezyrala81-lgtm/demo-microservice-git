@@ -42,7 +42,7 @@ app.get("/api/resumen", (_req, res) => {
     // 1. Define o importa los datos que ya tienes
     const usuarios = [
         { id: 1, nombre: "Ana" },
-        { id: 2, nombre: "Emilio" },
+        { id: 2, nombre: "Emi" },
         { id: 3, nombre: "Carlos" }
     ];
     const productos = [
