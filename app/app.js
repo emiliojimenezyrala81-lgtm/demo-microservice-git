@@ -6,7 +6,7 @@ const app = express();
 // Si modificas un nombre aquí, se actualiza en todas las rutas y pruebas.
 const ALL_USERS = [
     { id: 1, nombre: "Ana" },
-    { id: 2, nombre: "Emilio" },
+    { id: 2, nombre: "Emili" },
     { id: 3, nombre: "Carlos" }
 ];
 
