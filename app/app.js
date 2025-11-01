@@ -21,7 +21,7 @@ const ALL_PRODUCTS = [
 
 
 app.get("/", (_req, res) => {
-    res.json({ status: "ok", service: "Hola soy el Juanito" });
+    res.json({ status: "ok", service: "Hola Pedro" });
 });
 
 
